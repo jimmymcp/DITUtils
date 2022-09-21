@@ -10,10 +10,10 @@ function Install-AppsFromFolder {
             $_.FullName
         }) | % {
         try {
-            Publish-BcContainerApp $ContainerName -appFile $_ -sync -upgrade -skipVerification -useDevEndpoint -credential $credential
+            Publish-BcContainerApp $ContainerName -appFile $_ -sync -syncMode Development  -upgrade -skipVerification -useDevEndpoint -credential $credential
         }
         catch {
-            Publish-BcContainerApp $ContainerName -appFile $_ -sync -install -skipVerification -useDevEndpoint -credential $credential
+            Publish-BcContainerApp $ContainerName -appFile $_ -sync -syncMode Development -install -skipVerification -useDevEndpoint -credential $credential
         }
     }
 }

@@ -78,6 +78,18 @@ function Upgrade-App {
     Unpublish-NavApp -ServerInstance $ServerInstance -Publisher $LatestPublishedVersion.Publisher -Name $LatestPublishedVersion.Name -Version $LatestPublishedVersion.Version
 }
 
+function Import-AppsManagementModule {
+    param(
+        [string]$ServerInstance
+    )
+
+    $pathName = (gwmi win32_service | ? Name -eq ('MicrosoftDynamicsNavServer${0}' -f $ServerInstance)).pathname
+    $pathName = $pathName.Split('"')[1] #get the part of the string between the first pair of double quotes
+    $ModulePath = (Get-ChildItem (Split-Path $pathName -Parent) -Filter '*Apps.Management.psd1').FullName
+    Write-Host "Importing PowerShell Apps Module from $ModulePath"
+    Import-Module (Get-ChildItem (Split-Path $pathName -Parent) -Filter '*Apps.Management.psd1').FullName
+}
+
 function UpgradeOrInstall-Apps {
     param(
         [Parameter(Mandatory = $true)]
@@ -88,6 +100,7 @@ function UpgradeOrInstall-Apps {
         [string]$Tenant = 'default'
     )
     $apps = Get-FileList $SourceFolder
+    Import-AppsManagementModule -ServerInstance $ServerInstance
 
     $apps | ForEach-Object {
         "App file: $_"

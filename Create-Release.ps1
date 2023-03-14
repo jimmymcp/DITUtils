@@ -14,7 +14,9 @@ function Create-Release {
     }
 
     git checkout -b "v$Version"
+    git push -u origin "v$Version"
     git checkout -b "v$Version-TEST"
+    git push -u origin "v$Version-TEST"
 }
 
 Export-ModuleMember -Function Create-Release

@@ -25,7 +25,7 @@
     }
 
     if ($StorageAccount -eq 'bcinsider') {
-        $ArtifactParams.Add('sasToken', (Get-JPUtilsConfig -KeyName 'sasToken'))
+        $ArtifactParams.Add('sasToken', (Get-DITUtilsConfig -KeyName 'sasToken'))
     }
 
     if ($SecondToLastMajor.IsPresent) {
@@ -38,7 +38,7 @@
     if (($null -eq $ArtifactUrl) -and ($StorageAccount -eq 'bcartifacts')) {
         $ArtifactParams.Remove('storageAccount')
         $ArtifactParams.Add('storageAccount','bcinsider')
-        $ArtifactParams.Add('sasToken', (Get-JPUtilsConfig -KeyName 'sasToken'))
+        $ArtifactParams.Add('sasToken', (Get-DITUtilsConfig -KeyName 'sasToken'))
         $ArtifactUrl = Get-BCArtifactUrl @ArtifactParams
     }
 

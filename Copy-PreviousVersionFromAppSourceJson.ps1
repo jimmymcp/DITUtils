@@ -7,7 +7,7 @@ function Copy-PreviousVersionFromAppSourceJson {
     $AppJson = Get-Content (Join-Path $ProjectRoot 'app.json') -Raw | ConvertFrom-Json
     $AppFileName = "$($AppJson.Publisher)_$($AppJson.Name)_$($AppSourceCop.version).app"
 
-    $Apps = Get-ChildItem -Path (Get-JPUtilsConfig -KeyName releasesPath) -Filter $AppFileName -Recurse | Select -Last 1
+    $Apps = Get-ChildItem -Path (Get-DITUtilsConfig -KeyName releasesPath) -Filter $AppFileName -Recurse | Select -Last 1
     
     if ($null -ne $Apps) {
         $AppPath = $Apps.FullName

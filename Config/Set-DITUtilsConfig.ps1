@@ -1,10 +1,10 @@
-function Set-JPUtilsConfig {
+function Set-DITUtilsConfig {
     param(
         [string]$KeyName,
         [string]$KeyValue
     )
 
-    $config = Get-JPUtilsConfig
+    $config = Get-DITUtilsConfig
     if ($null -eq $config.$KeyName) {
         $config | Add-Member -MemberType NoteProperty -Name $KeyName -Value $KeyValue
     }
@@ -12,7 +12,7 @@ function Set-JPUtilsConfig {
         $config.$KeyName = $KeyValue
     }
 
-    Set-Content -Path (Get-JPUtilsConfigPath) -Value (ConvertTo-Json $config)
+    Set-Content -Path (Get-DITUtilsConfigPath) -Value (ConvertTo-Json $config)
 }
 
-Export-ModuleMember -Function Set-JPUtilsConfig
+Export-ModuleMember -Function Set-DITUtilsConfig

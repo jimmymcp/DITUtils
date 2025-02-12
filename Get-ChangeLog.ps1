@@ -11,7 +11,12 @@ function Get-ChangeLog {
     $changedDate = $feature.fields.'System.ChangedDate'
 
     # version no. header
-    $result += "### $($feature.fields.'System.Title') ($($changedDate.Day)/$($changedDate.Month)/$($changedDate.Year))"
+    $title = $feature.fields.'System.Title'
+    if ($title.lastIndexOf(' ') -gt 0) {
+        $title = $title.substring($title.lastIndexOf(' ') + 1)
+    }
+
+    $result += "### $title ($($changedDate.Day)/$($changedDate.Month)/$($changedDate.Year))"
 
     #children
     $feature.relations | Where-Object rel -eq 'System.LinkTypes.Hierarchy-Forward' | ForEach-Object {

@@ -20,15 +20,17 @@ function Get-ChangeLog {
 
     #children
     $feature.relations | Where-Object rel -eq 'System.LinkTypes.Hierarchy-Forward' | ForEach-Object {
-        $item = Invoke-AzureDevOpsAPI -url $_.url -params @{fields = 'System.Title,Custom.ReleaseNotes' }
-        if (!($firstChild)) {
-            $result += '<hr/>'
+        $item = Invoke-AzureDevOpsAPI -url $_.url
+        if (($null -eq $item.fields.'Custom.DonotincludeinReleasenotes') -or ($item.fields.'Custom.DonotincludeinReleasenotes' -eq $false)) {
+            if (!($firstChild)) {
+                $result += '<hr/>'
+                $result += ''
+            }
+            $result += "- [$($item.id)](https://dev.azure.com/TES365/TES%20IP/_workitems/edit/$($item.id)): $($item.fields.'System.Title')"
+            $result += $item.fields.'Custom.ReleaseNotes'
             $result += ''
+            $firstChild = $false
         }
-        $result += "- [$($item.id)](https://dev.azure.com/TES365/TES%20IP/_workitems/edit/$($item.id)): $($item.fields.'System.Title')"
-        $result += $item.fields.'Custom.ReleaseNotes'
-        $result += ''
-        $firstChild = $false
     }
 
     $result

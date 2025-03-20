@@ -25,14 +25,14 @@ function Get-ALDependencies {
     }
 
     Get-ChildItem -Path $tempPath -Filter *.app -Recurse | ForEach-Object {
-        $_.Name
+        $_.FullName
         Copy-Item $_.FullName $packagesPath -Force
     }
 
     Set-Location $originalPath
 
     if ($Install.IsPresent) {
-        Install-AppsFromFolder -SourcePath $packagesPath -ContainerName $ContainerName -Credential $Credential
+        Install-AppsFromFolder -SourcePath $tempPath -ContainerName $ContainerName -Credential $Credential
     }
 }
 

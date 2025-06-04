@@ -3,13 +3,7 @@ function Test-AdminAppAccess {
         [string]$DomainName
     )
 
-    try {
-        New-EnvironmentAdminAuth -DomainName $DomainName
-        return $true
-    }
-    catch {
-        return $false
-    }
+    return (Invoke-WebRequest "$(Get-DitUtilsConfig -KeyName environmentAdminUrl)?tenantId=$DomainName").Content
 }
 
 Export-ModuleMember -Function Test-AdminAppAccess
